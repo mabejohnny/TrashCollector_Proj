@@ -71,7 +71,7 @@ namespace TrashCollector.Controllers
         }
 
         // GET: CustomersController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
             var customerToEdit = _context.Customers.Where(c => c.Id == id).Single();
             if(customerToEdit == null)
@@ -86,26 +86,31 @@ namespace TrashCollector.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Customer customer)
         {
-            try
+            if(ModelState.IsValid)
             {
                 _context.Customers.Update(customer);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            catch(Exception e)
+            else 
             {
-                return View();
+                return View(customer);
             }
         }
 
         // GET: CustomersController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
             var customertoDelete = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
 
             if(customertoDelete == null)
             {
                 return NotFound();
+            }
+            if(id == null)
+            {
+                return NotFound();
+
             }
             return View(customertoDelete);
 
