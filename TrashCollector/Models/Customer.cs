@@ -23,13 +23,13 @@ namespace TrashCollector.Models
         [Display(Name = "Zip Code")]
         public string ZipCode { get; set; }
         [Display(Name = "Scheduled Pickup Day")]
-        public string PickupDayChoice { get; set; }
+        public DateTime PickupDayChoice { get; set; }
         [Display(Name = "*Suspend Pickup Start Date")]
-        public string SuspendPickupStart { get; set; }
+        public DateTime SuspendPickupStart { get; set; }
         [Display(Name = "*Suspend Pickup End Date")]
-        public string SuspendPickupEnd { get; set; }
+        public DateTime SuspendPickupEnd { get; set; }
         [Display(Name = "One Time Scheduled Pickup")]
-        public string OneTimePickup { get; set; }
+        public DateTime OneTimePickup { get; set; }
         [Display(Name = "Balance Due")]
         public double Balance { get; set; }
 

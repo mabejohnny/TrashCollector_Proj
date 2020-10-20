@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrashCollector.Data;
 
 namespace TrashCollector.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201020170141_ChangedVariables")]
+    partial class ChangedVariables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,15 +50,15 @@ namespace TrashCollector.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4d9872f4-712b-4a7e-884d-0d37c935ca59",
-                            ConcurrencyStamp = "a0d1cea9-9b1c-4893-9767-7bfadd835871",
+                            Id = "ab00fa1c-4080-4c41-bd2f-89d2e2aa5104",
+                            ConcurrencyStamp = "7bd6a4c6-963e-48d1-b032-8bb57a20bd0b",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
-                            Id = "11043b17-f0c6-4558-b7a5-dc013e277c26",
-                            ConcurrencyStamp = "a89661e7-0c30-44b8-aa99-7d3d40c2505f",
+                            Id = "365c563f-f141-4c4a-86d0-f0bb73a90869",
+                            ConcurrencyStamp = "11d63632-e4a7-4dd7-af8e-e3cb976e3a56",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         });
@@ -253,11 +255,11 @@ namespace TrashCollector.Data.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("OneTimePickup")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("OneTimePickup")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("PickupDayChoice")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("PickupDayChoice")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
@@ -265,11 +267,11 @@ namespace TrashCollector.Data.Migrations
                     b.Property<string>("StreetAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("SuspendPickupEnd")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("SuspendPickupEnd")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("SuspendPickupStart")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("SuspendPickupStart")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ZipCode")
                         .HasColumnType("nvarchar(max)");

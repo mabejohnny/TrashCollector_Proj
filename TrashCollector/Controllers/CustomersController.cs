@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.IIS;
 using TrashCollector.Data;
 using TrashCollector.Models;
 
@@ -20,7 +21,7 @@ namespace TrashCollector.Controllers
         }
 
         // GET: CustomersController
-        public ActionResult Index()
+        public ActionResult Index()//global routing comes here after registration.  Is this user a "customer" yet?
         {
             var customersInDatabase = _context.Customers;
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -62,7 +63,11 @@ namespace TrashCollector.Controllers
         // GET: CustomersController/Edit/5
         public ActionResult Edit(int id)
         {
-            var customerToEdit = db.Customers.Where(c => c.Id == id).SingleOrDefault();
+            var customerToEdit = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+            if(customerToEdit == null)
+            {
+                return NotFound();
+            }
             return View(customerToEdit);
         }
 
@@ -73,8 +78,8 @@ namespace TrashCollector.Controllers
         {
             try
             {
-                db.Customers.Update(customer);
-                db.SaveChanges();
+                _context.Customers.Update(customer);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch(Exception e)
@@ -86,7 +91,12 @@ namespace TrashCollector.Controllers
         // GET: CustomersController/Delete/5
         public ActionResult Delete(int id)
         {
-            var customertoDelete = db.Customers.Where(c => c.Id == id).SingleOrDefault();
+            var customertoDelete = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+
+            if(customertoDelete == null)
+            {
+                return NotFound();
+            }
             return View(customertoDelete);
 
         } 
@@ -94,12 +104,12 @@ namespace TrashCollector.Controllers
         // POST: CustomersController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(Customer customer)
+        public ActionResult Delete(int id, Customer customer)
         {
             try
             {
-                db.Customers.Remove(customer);
-                db.SaveChanges();
+                _context.Customers.Remove(customer);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch(Exception e)
@@ -107,5 +117,12 @@ namespace TrashCollector.Controllers
                 return View();
             }
         }
+
+
+
+
+
+
+
     }
 }
