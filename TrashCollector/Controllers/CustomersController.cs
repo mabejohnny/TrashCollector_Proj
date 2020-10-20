@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,25 +12,27 @@ namespace TrashCollector.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly ApplicationDbContext db;
+        private readonly ApplicationDbContext _context;
 
-        public CustomersController(ApplicationDbContext _db)
+        public CustomersController(ApplicationDbContext context)
         {
-            db = _db;
+            _context = context;
         }
 
         // GET: CustomersController
         public ActionResult Index()
         {
-            var customersInDatabase = db.Customers;
-            return View(customersInDatabase);
+            var customersInDatabase = _context.Customers;
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customer = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            return View();
         }
 
         // GET: CustomersController/Details/5
         public ActionResult Details(int id)
         {
-            var customerToView = db.Customers.Where(c => c.Id == id).SingleOrDefault();
-            return View(customerToView);
+            var customersInDatabase = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+            return View(customersInDatabase);
         }
 
         // GET: CustomersController/Create
@@ -46,8 +49,8 @@ namespace TrashCollector.Controllers
         {
             try
             {
-                db.Customers.Add(customer);
-                db.SaveChanges();
+                _context.Customers.Add(customer);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch(Exception e)
