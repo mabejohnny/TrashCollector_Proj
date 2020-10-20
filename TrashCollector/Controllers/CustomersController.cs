@@ -32,7 +32,7 @@ namespace TrashCollector.Controllers
             }
             else
             {
-                return RedirectToAction("Customers");
+                return RedirectToAction("Index");
             }
         }
 
@@ -70,7 +70,7 @@ namespace TrashCollector.Controllers
         // GET: CustomersController/Edit/5
         public ActionResult Edit(int id)
         {
-            var customerToEdit = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+            var customerToEdit = _context.Customers.Where(c => c.Id == id).Single();
             if(customerToEdit == null)
             {
                 return NotFound();
@@ -123,6 +123,26 @@ namespace TrashCollector.Controllers
             {
                 return View();
             }
+        }
+
+       public ActionResult SetPickupDay(int id, Customer customer)
+       {
+            try
+            {
+                _context.Customers.Update(customer);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception e)
+            {
+                return View();
+            }
+            
+       }
+       
+        public ActionResult TemporaryStartOrStopService(Customer customer)
+        {
+            return View();
         }
 
 
