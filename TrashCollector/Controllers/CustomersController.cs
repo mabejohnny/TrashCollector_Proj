@@ -32,14 +32,19 @@ namespace TrashCollector.Controllers
             }
             else
             {
-                return RedirectToAction("Index");
+                return View(customer);
             }
         }
 
         // GET: CustomersController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            var customersInDatabase = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+           
+
+            if(id = null)
+            {
+                return NotFound();
+            }
             return View(customersInDatabase);
         }
 
@@ -55,16 +60,14 @@ namespace TrashCollector.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Customer customer)
         {
-            try
+            if(ModelState.IsValid)
             {
                 _context.Customers.Add(customer);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            catch(Exception e)
-            {
-                return View();
-            }
+              return View(customer);
+            
         }
 
         // GET: CustomersController/Edit/5
@@ -125,7 +128,7 @@ namespace TrashCollector.Controllers
             }
         }
 
-       public ActionResult SetPickupDay(int id, Customer customer)
+       public ActionResult SetPickupDay(Customer customer)
        {
             try
             {
@@ -142,7 +145,32 @@ namespace TrashCollector.Controllers
        
         public ActionResult TemporaryStartOrStopService(Customer customer)
         {
-            return View();
+            try
+            {
+                _context.Customers.Update(customer);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception e)
+            {
+                return View();
+            }
+
+        }
+
+        public ActionResult ExtraOneTimePickup(Customer customer)
+        {
+            try
+            {
+                _context.Customers.Update(customer);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception e)
+            {
+                return View();
+            }
+
         }
 
 
