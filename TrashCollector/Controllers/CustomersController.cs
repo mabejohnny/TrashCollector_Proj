@@ -21,9 +21,8 @@ namespace TrashCollector.Controllers
         }
 
         // GET: CustomersController
-        public ActionResult Index()//global routing comes here after registration.  Is this user a "customer" yet?
+        public ActionResult Index()
         {
-            var customersInDatabase = _context.Customers;
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var customer = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             return View();
