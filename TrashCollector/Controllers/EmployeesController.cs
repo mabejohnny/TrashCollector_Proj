@@ -17,38 +17,45 @@ namespace TrashCollector.Controllers
 
         public EmployeesController(ApplicationDbContext db)
         {
-            db = _db;
+           _db = db;
 
         }
 
        
         // GET: EmployeesController
-        public ActionResult Index(int? id)
+        public ActionResult Index()
         {
-            var employee = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var e = _db.Employees.Where(c => c.Id == id).FirstOrDefault();
-            return View();
+            var employeeId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = _db.Customers.Where(c => c.IdentityUserId == employeeId).FirstOrDefault();
+
+            if (employee == null)
+            {
+                return RedirectToAction("Create");
+            }
+            else
+            {
+                return View(employee);
+            }
+
         }
 
         // GET: EmployeesController/Details/5
         public ActionResult Details(int? id)
         {
-            if(id == null)
+            var employeesInDatabase = _db.Customers.Where(c => c.Id == id).SingleOrDefault();
+
+            if (id == null)
             {
                 return NotFound();
             }
-            var employee = _db.Employees.SingleOrDefault(c => c.Id == id);
-            if(employee == null)
-            {
-                return NotFound();
-            }
-            return View(employee);
+            return View(employeesInDatabase);
         }
 
         // GET: EmployeesController/Create
         public ActionResult Create()
         {
-            return View();
+            Employee employee = new Employee()
+;            return View(employee);
         }
 
         // POST: EmployeesController/Create

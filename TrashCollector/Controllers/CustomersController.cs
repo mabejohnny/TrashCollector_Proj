@@ -142,9 +142,11 @@ namespace TrashCollector.Controllers
         // GET: CustomersController/SetPickupDay/5
         public ActionResult SetPickupDay(int? id)
         {
+            var listOfCustomers = _context.Customers.ToList();
+            var userID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customerToEdit = _context.Customers.Where(c => c.IdentityUserId == userID).Single();
 
-
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
