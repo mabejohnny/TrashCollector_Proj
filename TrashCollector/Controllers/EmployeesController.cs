@@ -13,13 +13,20 @@ namespace TrashCollector.Controllers
 {
     public class EmployeesController : Controller
     {
+        private readonly ApplicationDbContext _db;
 
-        private ApplicationDbContext db = new ApplicationDbContext();
+        public EmployeesController(ApplicationDbContext db)
+        {
+            db = _db;
+
+        }
+
+       
         // GET: EmployeesController
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
             var employee = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var customer = db.Employees.Where(c => c.IdentityUserId == UserId).FirstOrDefault();
+            var customer = _db.Employees.Where(c => c.Id == id).FirstOrDefault();
             return View();
         }
 
@@ -30,7 +37,7 @@ namespace TrashCollector.Controllers
             {
                 return NotFound();
             }
-            var employee = db.Employees.SingleOrDefault(c => c.Id == id);
+            var employee = _db.Employees.SingleOrDefault(c => c.Id == id);
             if(employee == null)
             {
                 return NotFound();
@@ -51,8 +58,8 @@ namespace TrashCollector.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Employees.Add(employee);
-                db.SaveChanges();
+                _db.Employees.Add(employee);
+                _db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             return View(employee);
@@ -67,7 +74,7 @@ namespace TrashCollector.Controllers
                 return NotFound();
             }
 
-            var employee = db.Employees.SingleOrDefault(c => c.Id == id);
+            var employee = _db.Employees.SingleOrDefault(c => c.Id == id);
 
             if(employee == null)
             {
@@ -83,8 +90,8 @@ namespace TrashCollector.Controllers
         {
             if(ModelState.IsValid)
             {
-                db.Employees.Update(employee);
-                db.SaveChanges();
+                _db.Employees.Update(employee);
+                _db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             return View(employee);
@@ -93,7 +100,7 @@ namespace TrashCollector.Controllers
         // GET: EmployeesController/Delete/5
         public ActionResult Delete(int? id)
         {
-            var employeeToDelete = db.Employees.Where(c => c.Id == id).SingleOrDefault();
+            var employeeToDelete = _db.Employees.Where(c => c.Id == id).SingleOrDefault();
 
             if (employeeToDelete == null)
             {
@@ -112,8 +119,8 @@ namespace TrashCollector.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(Employee employee)
         {
-            db.Employees.Remove(employee);
-            db.SaveChanges();
+            _db.Employees.Remove(employee);
+            _db.SaveChanges();
             return RedirectToAction("Index");
 
         }
