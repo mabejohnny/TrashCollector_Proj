@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.IIS;
+using Microsoft.Exchange.WebServices.Data;
 using TrashCollector.Data;
 using TrashCollector.Models;
 
@@ -39,13 +40,13 @@ namespace TrashCollector.Controllers
         // GET: CustomersController/Details/5
         public ActionResult Details(int? id)
         {
-           
+            var customerInDatabase = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
 
-            if(id = null)
+            if (id == null)
             {
                 return NotFound();
             }
-            return View(customersInDatabase);
+            return View(customerInDatabase);
         }
 
         // GET: CustomersController/Create
