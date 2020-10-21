@@ -5,18 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<h1>Customer Details</h1>
 
 <div>
     <h4>Customer</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FirstName)
         </dt>
@@ -59,45 +53,8 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.PickupDayChoice)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SuspendPickupStart)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SuspendPickupStart)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SuspendPickupEnd)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SuspendPickupEnd)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.OneTimePickup)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.OneTimePickup)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Balance)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Balance)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PickedUp)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PickedUp)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdentityUserId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdentityUserId)
-        </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to Customer Portal</a>
 </div>

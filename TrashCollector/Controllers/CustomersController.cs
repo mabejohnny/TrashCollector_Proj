@@ -63,6 +63,8 @@ namespace TrashCollector.Controllers
         {
             try
             {
+                var userID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                customer.IdentityUserId = userID;
                 _context.Customers.Add(customer);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
@@ -76,7 +78,9 @@ namespace TrashCollector.Controllers
         // GET: CustomersController/Edit/5
         public ActionResult Edit(int? id)
         {
-            var customerToEdit = _context.Customers.Where(c => c.Id == id).Single();
+            var listOfCustomers = _context.Customers.ToList();
+            var userID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customerToEdit = _context.Customers.Where(c => c.IdentityUserId == userID).Single();
             if(customerToEdit == null)
             {
                 return NotFound();
@@ -138,6 +142,8 @@ namespace TrashCollector.Controllers
         // GET: CustomersController/SetPickupDay/5
         public ActionResult SetPickupDay(int? id)
         {
+
+
             if(id == null)
             {
                 return NotFound();
@@ -168,24 +174,22 @@ namespace TrashCollector.Controllers
         }
 
         // GET: CustomersController/TemporaryStartOrStopService/5
-        public ActionResult TemporaryStartOrStopService(int? id)
+        public ActionResult TemporaryStartOrStopService(int id)
         {
-            if (id == null)
+            var listOfCustomers = _context.Customers.ToList();
+            var userID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customerToEdit = _context.Customers.Where(c => c.IdentityUserId == userID).Single();
+            if (customerToEdit == null)
             {
                 return NotFound();
             }
-            var StartOrStopService = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
-            if (StartOrStopService == null)
-            {
-                return NotFound();
-            }
-            return View(StartOrStopService);
+            return View(customerToEdit);
         }
 
         // POST: CustomersController/TemporaryStartOrStopService/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult TemporaryStartOrStopService(Customer customer)
+        public ActionResult TemporaryStartOrStopService(int id, Customer customer)
         {
             try
             {
