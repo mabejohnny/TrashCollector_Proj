@@ -14,9 +14,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
             <th>
@@ -36,24 +33,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PickupDayChoice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SuspendPickupStart)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SuspendPickupEnd)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OneTimePickup)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Balance)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PickedUp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdentityUserId)
             </th>
             <th></th>
         </tr>
@@ -104,9 +83,9 @@
                 @Html.DisplayFor(modelItem => item.IdentityUserId)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new {id=item.Id}) 
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) 
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
             </td>
         </tr>
 }
