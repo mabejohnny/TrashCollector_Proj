@@ -135,6 +135,7 @@ namespace TrashCollector.Controllers
             }
         }
 
+        // GET: CustomersController/SetPickupDay/5
         public ActionResult SetPickupDay(int? id)
         {
             if(id == null)
@@ -149,7 +150,7 @@ namespace TrashCollector.Controllers
             return View(CustomerPickup);    
         }
 
-        // POST: CustomersController/SetPickupDay 
+        // POST: CustomersController/SetPickupDay/5 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SetPickupDay(Customer customer)
@@ -166,6 +167,7 @@ namespace TrashCollector.Controllers
             }
         }
 
+        // GET: CustomersController/TemporaryStartOrStopService/5
         public ActionResult TemporaryStartOrStopService(int? id)
         {
             if (id == null)
@@ -180,7 +182,7 @@ namespace TrashCollector.Controllers
             return View(StartOrStopService);
         }
 
-        // POST: CustomersController/TemporaryStartOrStopService 
+        // POST: CustomersController/TemporaryStartOrStopService/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult TemporaryStartOrStopService(Customer customer)
@@ -197,6 +199,7 @@ namespace TrashCollector.Controllers
             }
         }
 
+        // GET: CustomersController/ExtraOneTimePickup/5
         public ActionResult ExtraOneTimePickup(int? id)
         {
             if (id == null)
@@ -211,7 +214,7 @@ namespace TrashCollector.Controllers
             return View(StartOrStopService);
         }
 
-        // POST: CustomersController/ExtraOneTimePickup 
+        // POST: CustomersController/ExtraOneTimePickup/5 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ExtraOneTimePickup(Customer customer)
