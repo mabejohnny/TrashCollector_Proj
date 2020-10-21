@@ -237,5 +237,22 @@ namespace TrashCollector.Controllers
             }
         }
 
+        public ActionResult CheckBalance(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var customerToCheckBalanceOn = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+            if (customerToCheckBalanceOn == null)
+            {
+                return NotFound();
+            }
+            return View(customerToCheckBalanceOn);
+
+        }
+
+
+
     }
 }
