@@ -7,19 +7,21 @@
 
 <h1>Customer Portal</h1>
 <h3>Please select from the following options:</h3>
-<p>
-    <a asp-action="Details">Your Details</a>
-</p>
-<p>
-    <a asp-action="Edit">Edit Your Information</a>
-</p>
-<p>
-    <a asp-action="SetPickupDay">Change Your Scheduled Pickup Day</a>
-</p>
-<p>
-    <a asp-action="TemporaryStartOrStopService">Temporarily Start/Stop Service</a>
-</p>
-<p>
-    <a asp-action="ExtraOneTimePickup">Schedule Extra Pickup</a>
-</p>
 
+
+
+<p>
+    @Html.ActionLink("Your Details", "Details", new { id = Model.Id })
+</p>
+<p>
+    @Html.ActionLink("Edit Your Information", "Edit", new { id = Model.Id })
+</p>
+<p>
+    @Html.ActionLink("Change Your Scheduled Pickup Day", "SetPickupDay", new { id = Model.Id })
+</p>
+<p>
+    @Html.ActionLink("Temporarily Start/Stop Service", "TemporaryStartOrStopService", new { id = Model.Id })
+</p>
+<p>
+    @Html.ActionLink("Schedule Extra Pickup", "ExtraOneTimePickup", new { id = Model.Id })
+</p>

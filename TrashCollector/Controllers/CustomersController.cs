@@ -80,7 +80,7 @@ namespace TrashCollector.Controllers
         {
             var listOfCustomers = _context.Customers.ToList();
             var userID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var customerToEdit = _context.Customers.Where(c => c.IdentityUserId == userID).Single();
+            var customerToEdit = _context.Customers.Where(c => c.IdentityUserId == userID).SingleOrDefault();
             if(customerToEdit == null)
             {
                 return NotFound();
@@ -144,7 +144,7 @@ namespace TrashCollector.Controllers
         {
             var listOfCustomers = _context.Customers.ToList();
             var userID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var customerToEdit = _context.Customers.Where(c => c.IdentityUserId == userID).Single();
+            var customerToEdit = _context.Customers.Where(c => c.IdentityUserId == userID).SingleOrDefault();
 
             if (id == null)
             {
@@ -180,7 +180,7 @@ namespace TrashCollector.Controllers
         {
             var listOfCustomers = _context.Customers.ToList();
             var userID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var customerToEdit = _context.Customers.Where(c => c.IdentityUserId == userID).Single();
+            var customerToEdit = _context.Customers.Where(c => c.IdentityUserId == userID).SingleOrDefault();
             if (customerToEdit == null)
             {
                 return NotFound();
