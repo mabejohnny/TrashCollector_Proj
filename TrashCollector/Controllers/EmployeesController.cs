@@ -91,24 +91,31 @@ namespace TrashCollector.Controllers
         }
 
         // GET: EmployeesController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
-            return View();
+            var employeeToDelete = db.Employees.Where(c => c.Id == id).SingleOrDefault();
+
+            if (employeeToDelete == null)
+            {
+                return NotFound();
+            }
+            if (id == null)
+            {
+                return NotFound();
+
+            }
+            return View(employeeToDelete);
         }
 
         // POST: EmployeesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(Employee employee)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            db.Employees.Remove(employee);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+
         }
     }
 }
