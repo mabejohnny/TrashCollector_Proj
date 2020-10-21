@@ -62,22 +62,32 @@ namespace TrashCollector.Controllers
         // GET: EmployeesController/Edit/5
         public ActionResult Edit(int? id)
         {
-            return View();
+            if( id == null)
+            {
+                return NotFound();
+            }
+
+            var employee = db.Employees.SingleOrDefault(c => c.Id == id);
+
+            if(employee == null)
+            {
+                return NotFound();
+            }
+            return View(employee);
         }
 
         // POST: EmployeesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Employee employee)
         {
-            try
+            if(ModelState.IsValid)
             {
+                db.Employees.Update(employee);
+                db.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(employee);
         }
 
         // GET: EmployeesController/Delete/5

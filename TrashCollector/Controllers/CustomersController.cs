@@ -85,7 +85,7 @@ namespace TrashCollector.Controllers
         // POST: CustomersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Customer customer)
+        public ActionResult Edit(Customer customer)
         {
             if(ModelState.IsValid)
             {
