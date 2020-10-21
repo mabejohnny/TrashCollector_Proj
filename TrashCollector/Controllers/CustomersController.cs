@@ -116,7 +116,6 @@ namespace TrashCollector.Controllers
 
             }
             return View(customertoDelete);
-
         } 
 
         // POST: CustomersController/Delete/5
@@ -136,8 +135,25 @@ namespace TrashCollector.Controllers
             }
         }
 
-       public ActionResult SetPickupDay(Customer customer)
-       {
+        public ActionResult SetPickupDay(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            var CustomerPickup = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+            if(CustomerPickup == null)
+            {
+                return NotFound();
+            }
+            return View(CustomerPickup);    
+        }
+
+        // POST: CustomersController/SetPickupDay 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SetPickupDay(Customer customer)
+        {
             try
             {
                 _context.Customers.Update(customer);
@@ -148,9 +164,25 @@ namespace TrashCollector.Controllers
             {
                 return View();
             }
-            
-       }
-       
+        }
+
+        public ActionResult TemporaryStartOrStopService(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var StartOrStopService = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+            if (StartOrStopService == null)
+            {
+                return NotFound();
+            }
+            return View(StartOrStopService);
+        }
+
+        // POST: CustomersController/TemporaryStartOrStopService 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult TemporaryStartOrStopService(Customer customer)
         {
             try
@@ -163,9 +195,25 @@ namespace TrashCollector.Controllers
             {
                 return View();
             }
-
         }
 
+        public ActionResult ExtraOneTimePickup(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var StartOrStopService = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+            if (StartOrStopService == null)
+            {
+                return NotFound();
+            }
+            return View(StartOrStopService);
+        }
+
+        // POST: CustomersController/ExtraOneTimePickup 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ExtraOneTimePickup(Customer customer)
         {
             try
@@ -178,17 +226,7 @@ namespace TrashCollector.Controllers
             {
                 return View();
             }
-
         }
-
-       // public ActionResult PickedUp()
-       // {
-            //Employee
-        //}
-
-
-
-
 
     }
 }
