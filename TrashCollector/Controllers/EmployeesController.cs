@@ -25,18 +25,22 @@ namespace TrashCollector.Controllers
         // GET: EmployeesController
         public ActionResult Index()
         {
+            var employeeList = _db.Employees.ToList();
             var employeeId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var employee = _db.Customers.Where(c => c.IdentityUserId == employeeId).FirstOrDefault();
+            var employee = _db.Customers.Where(c => c.IdentityUserId == employeeId).SingleOrDefault();
+            var customersInArea = _db.Customers.Where(c => c.ZipCode == employee.ZipCode).ToList();
+            DateTime today = DateTime.Now;
 
-            if (employee == null)
+            List<Customer> customerStops = new List<Customer>();
+            foreach (var customer in customersInArea)
             {
-                return RedirectToAction("Create");
+                if (customer.PickupDayChoice == today.DayOfWeek.ToString())
+                {
+                    continue;
+                }
+                customerStops.Add(customer);
             }
-            else
-            {
-                return View(employee);
-            }
-
+            return View(customerStops);
         }
 
         // GET: EmployeesController/Details/5
@@ -129,6 +133,20 @@ namespace TrashCollector.Controllers
             _db.Employees.Remove(employee);
             _db.SaveChanges();
             return RedirectToAction("Index");
+
+        }
+
+        public ActionResult PickedUp(Customer customer)
+        {
+            var userID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = _db.Employees.Where(c => c.IdentityUserId == userID).SingleOrDefault();
+            var customersInYourArea = _db.Customers.Where(c => c.ZipCode == employee.ZipCode).ToList();
+            if(customer.PickedUp == true)
+            {
+                customer.Balance == +10;  
+            }
+         
+            return View(customersInYourArea);
 
         }
     }
