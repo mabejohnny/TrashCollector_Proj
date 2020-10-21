@@ -61,14 +61,16 @@ namespace TrashCollector.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Customer customer)
         {
-            if(ModelState.IsValid)
+            try
             {
                 _context.Customers.Add(customer);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-              return View(customer);
-            
+            catch(Exception e)
+            {
+                return View();
+            }   
         }
 
         // GET: CustomersController/Edit/5
@@ -179,7 +181,10 @@ namespace TrashCollector.Controllers
 
         }
 
-
+       // public ActionResult PickedUp()
+       // {
+            //Employee
+        //}
 
 
 

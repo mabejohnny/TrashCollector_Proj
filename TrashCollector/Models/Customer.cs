@@ -32,6 +32,7 @@ namespace TrashCollector.Models
         public DateTime OneTimePickup { get; set; }
         [Display(Name = "Balance Due")]
         public double Balance { get; set; }
+        public bool PickedUp { get; set; }
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }

@@ -26,7 +26,7 @@ namespace TrashCollector.Controllers
         public ActionResult Index(int? id)
         {
             var employee = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var customer = _db.Employees.Where(c => c.Id == id).FirstOrDefault();
+            var e = _db.Employees.Where(c => c.Id == id).FirstOrDefault();
             return View();
         }
 
