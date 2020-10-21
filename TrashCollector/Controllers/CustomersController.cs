@@ -237,6 +237,7 @@ namespace TrashCollector.Controllers
             }
         }
 
+        // GET: CustomersController/CheckBalance/5
         public ActionResult CheckBalance(int? id)
         {
             if (id == null)
@@ -249,10 +250,6 @@ namespace TrashCollector.Controllers
                 return NotFound();
             }
             return View(customerToCheckBalanceOn);
-
         }
-
-
-
     }
 }
