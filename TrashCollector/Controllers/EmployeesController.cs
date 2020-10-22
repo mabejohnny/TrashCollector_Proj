@@ -28,8 +28,9 @@ namespace TrashCollector.Controllers
         {
             var employeeId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employeeOne = _context.Employees.Where(c => c.IdentityUserId == employeeId).FirstOrDefault();
+            var today = DateTime.Now.DayOfWeek.ToString();
             DateTime todaysDate = DateTime.Now;
-            var customersInArea = _context.Customers.Where(c => c.ZipCode == employeeOne.ZipCode && c.PickupDayChoice == todaysDate).ToList();
+            var customersInArea = _context.Customers.Where(c => c.ZipCode == employeeOne.ZipCode && c.PickupDayChoice == today).ToList();
 
             List<Customer> customerStops = new List<Customer>();
 
@@ -69,6 +70,7 @@ namespace TrashCollector.Controllers
             try
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                employee.IdentityUserId = userId;
                 _context.Add(employee);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
@@ -134,21 +136,22 @@ namespace TrashCollector.Controllers
         }
 
         // GET: EmployeesController/PickedUp/5
-        public ActionResult PickedUp(int id)
-        {
-            return View();
-        }
+        //public ActionResult PickedUp(int id)
+        //{
+        //    return View();
+        //}
 
        // POST: EmployeesController/PickedUp/5
        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult PickedUp(Customer customer, List<Customer> customerStops)
+        public ActionResult PickedUp(int id)
         {
-            if (customer.PickedUp == true)
-            {
-                customer.Balance++;
-                customerStops.Remove(customer);
-            }
+            var customer = _context.Customers.Find(id);
+            customer.PickedUp = true;
+            
+            customer.Balance += 10;
+            _context.SaveChanges();
+            
             return RedirectToAction("Index");
         }
     }

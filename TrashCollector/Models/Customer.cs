@@ -23,7 +23,7 @@ namespace TrashCollector.Models
         [Display(Name = "Zip Code")]
         public string ZipCode { get; set; }
         [Display(Name = "Scheduled Pickup Day")]
-        public DateTime PickupDayChoice { get; set; }
+        public string PickupDayChoice { get; set; }
         [Display(Name = "*Suspend Pickup Start Date")]
         public DateTime SuspendPickupStart { get; set; }
         [Display(Name = "*Suspend Pickup End Date")]
