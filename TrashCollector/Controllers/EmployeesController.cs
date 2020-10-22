@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Exchange.WebServices.Data;
@@ -11,31 +12,32 @@ using TrashCollector.Models;
 
 namespace TrashCollector.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class EmployeesController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext _context;
 
-        public EmployeesController(ApplicationDbContext db)
+        public EmployeesController(ApplicationDbContext context)
         {
-           _db = db;
+            _context = context;
         }
 
-        // GET: EmployeesController
-        public ActionResult Index()
+        // GET: EmployeesController/Index/5
+        public ActionResult Index(int id)
         {
-            var employeeList = _db.Employees.ToList();
             var employeeId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var employee = _db.Customers.Where(c => c.IdentityUserId == employeeId).SingleOrDefault();
-            var customersInArea = _db.Customers.Where(c => c.ZipCode == employee.ZipCode).ToList();
+            var employee = _context.Customers.Where(c => c.IdentityUserId == employeeId).SingleOrDefault();
             DateTime todaysDate = DateTime.Now;
+            var customersInArea = _context.Customers.Where(c => c.ZipCode == employee.ZipCode && c.PickupDayChoice == todaysDate).ToList();
 
             List<Customer> customerStops = new List<Customer>();
+
             foreach (var customer in customersInArea)
             {
-                if (customer.PickupDayChoice == todaysDate)
+                if (customer.PickedUp == false)
                 {
                     customerStops.Add(customer);
-                }  
+                }
             }
             return View(customerStops);
         }
@@ -43,7 +45,7 @@ namespace TrashCollector.Controllers
         // GET: EmployeesController/Details/5
         public ActionResult Details(int? id)
         {
-            var employeesInDatabase = _db.Customers.Where(c => c.Id == id).SingleOrDefault();
+            var employeesInDatabase = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
 
             if (id == null)
             {
@@ -55,8 +57,7 @@ namespace TrashCollector.Controllers
         // GET: EmployeesController/Create
         public ActionResult Create()
         {
-            Employee employee = new Employee()
-;            return View(employee);
+;            return View();
         }
 
         // POST: EmployeesController/Create
@@ -64,26 +65,24 @@ namespace TrashCollector.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Employee employee)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _db.Employees.Add(employee);
-                _db.SaveChanges();
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                _context.Add(employee);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            return View(employee);
+            catch(Exception e)
+            {
+                return View();
+            }  
         }
 
         // GET: EmployeesController/Edit/5
         public ActionResult Edit(int? id)
         {
-            if( id == null)
-            {
-                return NotFound();
-            }
-
-            var employee = _db.Employees.SingleOrDefault(c => c.Id == id);
-
-            if(employee == null)
+            var employee = _context.Employees.Where(c => c.Id == id).SingleOrDefault();
+            if ( id == null)
             {
                 return NotFound();
             }
@@ -93,21 +92,24 @@ namespace TrashCollector.Controllers
         // POST: EmployeesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Employee employee)
+        public ActionResult Edit(int id, Employee employee)
         {
-            if(ModelState.IsValid)
+            try
             {
-                _db.Employees.Update(employee);
-                _db.SaveChanges();
+                _context.Update(employee);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            return View(employee);
+            catch(Exception e)
+            {
+                return View();
+            }
         }
 
         // GET: EmployeesController/Delete/5
         public ActionResult Delete(int? id)
         {
-            var employeeToDelete = _db.Employees.Where(c => c.Id == id).SingleOrDefault();
+            var employeeToDelete = _context.Employees.Where(c => c.Id == id).SingleOrDefault();
 
             if (employeeToDelete == null)
             {
@@ -125,8 +127,8 @@ namespace TrashCollector.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(Employee employee)
         {
-            _db.Employees.Remove(employee);
-            _db.SaveChanges();
+            _context.Employees.Remove(employee);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -136,8 +138,8 @@ namespace TrashCollector.Controllers
             return View();
         }
 
-        // POST: EmployeesController/PickedUp/5
-        [HttpPost]
+       // POST: EmployeesController/PickedUp/5
+       [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult PickedUp(Customer customer, List<Customer> customerStops)
         {
@@ -146,7 +148,7 @@ namespace TrashCollector.Controllers
                 customer.Balance++;
                 customerStops.Remove(customer);
             }
-            return View(customerStops);   
+            return RedirectToAction("Index");
         }
     }
 }
