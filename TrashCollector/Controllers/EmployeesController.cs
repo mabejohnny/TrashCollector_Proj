@@ -18,10 +18,8 @@ namespace TrashCollector.Controllers
         public EmployeesController(ApplicationDbContext db)
         {
            _db = db;
-
         }
 
-       
         // GET: EmployeesController
         public ActionResult Index()
         {
@@ -29,16 +27,15 @@ namespace TrashCollector.Controllers
             var employeeId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = _db.Customers.Where(c => c.IdentityUserId == employeeId).SingleOrDefault();
             var customersInArea = _db.Customers.Where(c => c.ZipCode == employee.ZipCode).ToList();
-            DateTime today = DateTime.Now;
+            DateTime todaysDate = DateTime.Now;
 
             List<Customer> customerStops = new List<Customer>();
             foreach (var customer in customersInArea)
             {
-                if (customer.PickupDayChoice == today.DayOfWeek.ToString())
+                if (customer.PickupDayChoice == todaysDate)
                 {
-                    continue;
-                }
-                customerStops.Add(customer);
+                    customerStops.Add(customer);
+                }  
             }
             return View(customerStops);
         }
@@ -74,7 +71,6 @@ namespace TrashCollector.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(employee);
-
         }
 
         // GET: EmployeesController/Edit/5
@@ -120,7 +116,6 @@ namespace TrashCollector.Controllers
             if (id == null)
             {
                 return NotFound();
-
             }
             return View(employeeToDelete);
         }
@@ -133,21 +128,25 @@ namespace TrashCollector.Controllers
             _db.Employees.Remove(employee);
             _db.SaveChanges();
             return RedirectToAction("Index");
-
         }
 
-        public ActionResult PickedUp(Customer customer)
+        // GET: EmployeesController/PickedUp/5
+        public ActionResult PickedUp(int id)
         {
-            var userID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var employee = _db.Employees.Where(c => c.IdentityUserId == userID).SingleOrDefault();
-            var customersInYourArea = _db.Customers.Where(c => c.ZipCode == employee.ZipCode).ToList();
-            if(customer.PickedUp == true)
-            {
-                customer.Balance == +10;  
-            }
-         
-            return View(customersInYourArea);
+            return View();
+        }
 
+        // POST: EmployeesController/PickedUp/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PickedUp(Customer customer, List<Customer> customerStops)
+        {
+            if (customer.PickedUp == true)
+            {
+                customer.Balance++;
+                customerStops.Remove(customer);
+            }
+            return View(customerStops);   
         }
     }
 }
