@@ -136,9 +136,7 @@ namespace TrashCollector.Controllers
             return RedirectToAction("Index");
         }
 
-       // POST: EmployeesController/PickedUp/5
-       [HttpPost]
-       [ValidateAntiForgeryToken]
+
         public ActionResult PickedUp(int id)
         {
             var customer = _context.Customers.Find(id);
