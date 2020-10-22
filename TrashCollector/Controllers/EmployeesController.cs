@@ -12,23 +12,24 @@ using TrashCollector.Models;
 
 namespace TrashCollector.Controllers
 {
+    [Authorize(Roles = "Employee")]
     public class EmployeesController : Controller
     {
 
-        private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext _context;
 
-        public EmployeesController(ApplicationDbContext db)
+        public EmployeesController(ApplicationDbContext context)
         {
-            _db = db;
+            _context = context;
         }
 
         // GET: EmployeesController/Index/5
         public ActionResult Index()
         {
             var employeeId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var employee = _db.Customers.Where(c => c.IdentityUserId == employeeId).SingleOrDefault();
+            var employeeOne = _context.Employees.Where(c => c.IdentityUserId == employeeId).FirstOrDefault();
             DateTime todaysDate = DateTime.Now;
-            var customersInArea = _db.Customers.Where(c => c.ZipCode == employee.ZipCode && c.PickupDayChoice == todaysDate).ToList();
+            var customersInArea = _context.Customers.Where(c => c.ZipCode == employeeOne.ZipCode && c.PickupDayChoice == todaysDate).ToList();
 
             List<Customer> customerStops = new List<Customer>();
 
@@ -45,7 +46,7 @@ namespace TrashCollector.Controllers
         // GET: EmployeesController/Details/5
         public ActionResult Details(int? id)
         {
-            var employeesInDatabase = _db.Customers.Where(c => c.Id == id).SingleOrDefault();
+            var employeesInDatabase = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
 
             if (id == null)
             {
@@ -68,8 +69,8 @@ namespace TrashCollector.Controllers
             try
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                _db.Add(employee);
-                _db.SaveChanges();
+                _context.Add(employee);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch(Exception e)
@@ -81,7 +82,7 @@ namespace TrashCollector.Controllers
         // GET: EmployeesController/Edit/5
         public ActionResult Edit(int? id)
         {
-            var employee = _db.Employees.Where(c => c.Id == id).SingleOrDefault();
+            var employee = _context.Employees.Where(c => c.Id == id).SingleOrDefault();
             if ( id == null)
             {
                 return NotFound();
@@ -96,8 +97,8 @@ namespace TrashCollector.Controllers
         {
             try
             {
-                _db.Update(employee);
-                _db.SaveChanges();
+                _context.Update(employee);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             catch(Exception e)
@@ -109,7 +110,7 @@ namespace TrashCollector.Controllers
         // GET: EmployeesController/Delete/5
         public ActionResult Delete(int? id)
         {
-            var employeeToDelete = _db.Employees.Where(c => c.Id == id).SingleOrDefault();
+            var employeeToDelete = _context.Employees.Where(c => c.Id == id).SingleOrDefault();
 
             if (employeeToDelete == null)
             {
@@ -127,8 +128,8 @@ namespace TrashCollector.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(Employee employee)
         {
-            _db.Employees.Remove(employee);
-            _db.SaveChanges();
+            _context.Employees.Remove(employee);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
