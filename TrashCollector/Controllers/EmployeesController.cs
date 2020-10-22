@@ -28,6 +28,7 @@ namespace TrashCollector.Controllers
         {
             var employeeId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employeeOne = _context.Employees.Where(c => c.IdentityUserId == employeeId).FirstOrDefault();
+
             var today = DateTime.Now.DayOfWeek.ToString();
             DateTime todaysDate = DateTime.Now;
             var customersInArea = _context.Customers.Where(c => c.ZipCode == employeeOne.ZipCode && c.PickupDayChoice == today).ToList();
@@ -47,13 +48,13 @@ namespace TrashCollector.Controllers
         // GET: EmployeesController/Details/5
         public ActionResult Details(int? id)
         {
-            var employeesInDatabase = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+            var customerToViewDetails = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
 
             if (id == null)
             {
                 return NotFound();
             }
-            return View(employeesInDatabase);
+            return View(customerToViewDetails);
         }
 
         // GET: EmployeesController/Create
