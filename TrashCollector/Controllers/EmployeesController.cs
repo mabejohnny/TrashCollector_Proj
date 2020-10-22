@@ -59,7 +59,7 @@ namespace TrashCollector.Controllers
         // GET: EmployeesController/Create
         public ActionResult Create()
         {
-;            return View();
+             return View();
         }
 
         // POST: EmployeesController/Create
@@ -135,15 +135,9 @@ namespace TrashCollector.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: EmployeesController/PickedUp/5
-        //public ActionResult PickedUp(int id)
-        //{
-        //    return View();
-        //}
-
        // POST: EmployeesController/PickedUp/5
        [HttpPost]
-        [ValidateAntiForgeryToken]
+       [ValidateAntiForgeryToken]
         public ActionResult PickedUp(int id)
         {
             var customer = _context.Customers.Find(id);
