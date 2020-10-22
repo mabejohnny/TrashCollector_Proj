@@ -5,11 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Employee Portal</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -71,18 +69,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PickupDayChoice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SuspendPickupStart)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SuspendPickupEnd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OneTimePickup)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Balance)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PickedUp)
