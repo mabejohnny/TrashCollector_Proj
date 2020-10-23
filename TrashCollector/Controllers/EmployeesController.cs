@@ -45,16 +45,12 @@ namespace TrashCollector.Controllers
             return View(customerStops);
         }
 
-        // GET: EmployeesController/Details/5
-        public ActionResult Details(int? id)
+        // GET: EmployeesController/CustomerMapDetails/5
+        public ActionResult CustomerMapDetails(int id)
         {
-            var customerToViewDetails = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
-
-            if (id == null)
-            {
-                return NotFound();
-            }
-            return View(customerToViewDetails);
+            ViewData["GOOGLE_API_KEY"] = APIkeys.GOOGLE_API_KEY;
+            var customerToView = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+            return View(customerToView);
         }
 
         // GET: EmployeesController/Create

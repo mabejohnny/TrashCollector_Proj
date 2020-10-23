@@ -28,6 +28,12 @@ namespace TrashCollector.Controllers
             return View();
         }
 
+        public ActionResult MAP()
+        {
+            return View();
+
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
