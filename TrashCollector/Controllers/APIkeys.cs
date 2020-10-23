@@ -7,6 +7,6 @@ namespace TrashCollector.Controllers
 {
     public static class APIkeys
     {
-        public const string GOOGLE_API_KEY = "AIzaSyBRX3Bk - X6kduePIhfmeoU_iL69PZ46zTM";
+        public const string GOOGLE_API_KEY = "AIzaSyDf26MKKWQIl28Uu38tz5DpeY2DEL7I65Y";
     }
 }
