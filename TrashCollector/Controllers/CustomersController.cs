@@ -81,10 +81,10 @@ namespace TrashCollector.Controllers
         public ActionResult Edit(int? id)
         {
             var listOfCustomers = _context.Customers.ToList();
-            //var userID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var customerToEdit = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
-            //var customerToEdit = _context.Customers.Where(c => c.IdentityUserId == userID).SingleOrDefault();
-            if (id == null)
+            var userID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customerToEdit = _context.Customers.Where(c => c.IdentityUserId == userID).SingleOrDefault();
+
+            if (customerToEdit == null)
             {
                 return NotFound();
             }
@@ -98,7 +98,6 @@ namespace TrashCollector.Controllers
         {
             try
             {
-                //_context.Update(customer);
                 _context.Customers.Update(customer);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
@@ -155,6 +154,7 @@ namespace TrashCollector.Controllers
                 return NotFound();
             }
             var CustomerPickup = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+
             if(CustomerPickup == null)
             {
                 return NotFound();
@@ -178,6 +178,7 @@ namespace TrashCollector.Controllers
             var listOfCustomers = _context.Customers.ToList();
             var userID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var customerToEdit = _context.Customers.Where(c => c.IdentityUserId == userID).SingleOrDefault();
+
             if (customerToEdit == null)
             {
                 return NotFound();
@@ -210,6 +211,7 @@ namespace TrashCollector.Controllers
                 return NotFound();
             }
             var StartOrStopService = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+
             if (StartOrStopService == null)
             {
                 return NotFound();
