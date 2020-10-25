@@ -54,7 +54,8 @@ namespace TrashCollector.Controllers
         // GET: CustomersController/Create
         public ActionResult Create()
         {
-            return View();
+            Customer customer = new Customer();
+            return View(customer);
         }
 
         // POST: CustomersController/Create
@@ -77,12 +78,13 @@ namespace TrashCollector.Controllers
         }
 
         // GET: CustomersController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
             var listOfCustomers = _context.Customers.ToList();
-            var userID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var customerToEdit = _context.Customers.Where(c => c.IdentityUserId == userID).SingleOrDefault();
-            if(customerToEdit == null)
+            //var userID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customerToEdit = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+            //var customerToEdit = _context.Customers.Where(c => c.IdentityUserId == userID).SingleOrDefault();
+            if (id == null)
             {
                 return NotFound();
             }
@@ -96,6 +98,7 @@ namespace TrashCollector.Controllers
         {
             try
             {
+                //_context.Update(customer);
                 _context.Customers.Update(customer);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
@@ -164,16 +167,9 @@ namespace TrashCollector.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SetPickupDay(Customer customer)
         {
-            try
-            {
-                _context.Customers.Update(customer);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception e)
-            {
-                return View();
-            }
+            //Customers.PickupDayChoice  set value instead of using .update 
+            return View();
+
         }
 
         // GET: CustomersController/TemporaryStartOrStopService/5
