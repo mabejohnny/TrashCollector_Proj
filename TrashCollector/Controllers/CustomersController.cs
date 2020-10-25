@@ -54,8 +54,7 @@ namespace TrashCollector.Controllers
         // GET: CustomersController/Create
         public ActionResult Create()
         {
-            Customer customer = new Customer();
-            return View(customer);
+            return View();
         }
 
         // POST: CustomersController/Create
@@ -95,15 +94,15 @@ namespace TrashCollector.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Customer customer)
         {
-            if(ModelState.IsValid)
+            try
             {
                 _context.Customers.Update(customer);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            else 
+            catch(Exception e) 
             {
-                return View(customer);
+                return View();
             }
         }
 
@@ -178,16 +177,21 @@ namespace TrashCollector.Controllers
         }
 
         // GET: CustomersController/TemporaryStartOrStopService/5
-        public ActionResult TemporaryStartOrStopService(int id)
+        public ActionResult TemporaryStartOrStopService(int? id)
         {
             var listOfCustomers = _context.Customers.ToList();
             var userID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var customerToEdit = _context.Customers.Where(c => c.IdentityUserId == userID).SingleOrDefault();
-            if (customerToEdit == null)
+            if (id == null)
             {
                 return NotFound();
             }
-            return View(customerToEdit);
+            var CustomerPickup = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+            if (CustomerPickup == null)
+            {
+                return NotFound();
+            }
+            return View(CustomerPickup);
         }
 
         // POST: CustomersController/TemporaryStartOrStopService/5
