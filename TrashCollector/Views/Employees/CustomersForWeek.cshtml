@@ -1,0 +1,25 @@
+﻿@model TrashCollector.Models.Customer
+
+@{
+    ViewData["Title"] = "CustomersForWeek";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Employee Portal</h1>
+
+<div>
+    <h4>Select pick-up day:</h4>
+    <select>
+        class="form-control" id="PickupDayChoice" name="PickupDayChoice">
+        <options>Select pick-up day</options>
+        <options>Monday</options>
+        <options>Tuesday</options>
+        <options>Wendesday</options>
+        <options>Thursday</options>
+        <options>Friday</options>
+    </select>
+
+    <div>
+        <a asp-action="Index">Back to main menu</a>
+    </div>
+</div>

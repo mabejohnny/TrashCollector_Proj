@@ -7,7 +7,6 @@
 
 <h1>Employee Portal</h1>
 <h3>Attention Employees: After each customer pickup click confirm pickup</h3>
-
 <table class="table">
     <thead>
         <tr>
@@ -42,6 +41,7 @@
                 @Html.DisplayNameFor(model => model.OneTimePickup)
             </th>
             <th></th>
+
         </tr>
     </thead>
     <tbody>
@@ -79,10 +79,35 @@
                     @Html.DisplayFor(modelItem => item.OneTimePickup)
                 </td>
                 <td>
-                    <a asp-action="PickedUp" asp-route-id="@item.Id">Confirm Pickup</a>
-                    <a asp-action="CustomerMapDetails" asp-route-id="@item.Id">Customer Map Details</a>
+                    <a asp-action="PickedUp" asp-route-id="@item.Id">** Confirm Pickup **</a>
+                    <a asp-action="CustomerMapDetails" asp-route-id="@item.Id">Map Details</a>
+
                 </td>
             </tr>
-         }
+        }
     </tbody>
 </table>
+<div class="col-sm-4">
+    @using (Html.BeginForm("PopulateWeeklyList", "Home", FormMethod.Post, new { id = "Form1" }))
+     {
+        <div class="col-sm-4">
+            Sort by:
+            @Html.DropDownList("DayChoice", new List<SelectListItem>
+
+             {
+                new SelectListItem{ Text="Monday", Value = "1" },
+                new SelectListItem{ Text="Tuesday", Value = "2" },
+                new SelectListItem{ Text="Wednesday", Value = "3" },
+                new SelectListItem{ Text="Thursday", Value = "4" },
+                new SelectListItem{ Text="Friday", Value = "5" }
+             }, "-- Order By --", new { onchange = "document.getElementById('Form1').submit();" })
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Filter" />
+            </div>
+        </div>
+     }
+</div>

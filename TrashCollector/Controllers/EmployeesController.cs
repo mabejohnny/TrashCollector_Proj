@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Exchange.WebServices.Data;
 using TrashCollector.Data;
 using TrashCollector.Models;
@@ -53,10 +54,44 @@ namespace TrashCollector.Controllers
             return View(customerToView);
         }
 
+        // GET: EmployeesController/PopulateWeeklyList
+        public ActionResult PopulateWeeklyList(int id, Employee employee)
+        {
+            var employeeId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employeeOne = _context.Employees.Where(c => c.IdentityUserId == employeeId).FirstOrDefault();
+            var customersInArea = _context.Customers.Where(c => c.ZipCode == employeeOne.ZipCode).ToList();
+
+            return View();
+        }
+        // POST: EmployeesController/PopulateWeeklyList
+        public ActionResult PopulateWeeklyList(Employee employee, string DayChoice)
+        {
+            switch (DayChoice)
+            {
+                case "1":
+                    List<Customer> monday = _context.Customers.Where(c => c.ZipCode == employee.ZipCode && c.PickupDayChoice == "Monday").ToList();
+                    return View(monday);
+                case "2":
+                    List<Customer> tuesday = _context.Customers.Where(c => c.ZipCode == employee.ZipCode && c.PickupDayChoice == "Tuesday").ToList();
+                    return View(tuesday);
+                case "3":
+                    List<Customer> wednesday = _context.Customers.Where(c => c.ZipCode == employee.ZipCode && c.PickupDayChoice == "Wednesday").ToList();
+                    return View(wednesday);
+                case "4":
+                    List<Customer> thursday = _context.Customers.Where(c => c.ZipCode == employee.ZipCode && c.PickupDayChoice == "Thursday").ToList();
+                    return View(thursday);
+                case "5":
+                    List<Customer> friday = _context.Customers.Where(c => c.ZipCode == employee.ZipCode && c.PickupDayChoice == "Friday").ToList();
+                    return View(friday);
+                default:
+                    return NotFound();
+            }
+        }
+
         // GET: EmployeesController/Create
         public ActionResult Create()
         {
-             return View();
+          return View();
         }
 
         // POST: EmployeesController/Create
