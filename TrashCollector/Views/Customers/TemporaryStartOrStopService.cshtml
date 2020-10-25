@@ -7,11 +7,13 @@
 
 <h1>Customer Portal</h1>
 
-<h4>What dates would you like to start/stop service?</h4>
+<h4>When would you like to suspend your service?</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="TemporaryStartOrStopService">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="SuspendPickupStart" class="control-label"></label>
                 <input asp-for="SuspendPickupStart" class="form-control" />
