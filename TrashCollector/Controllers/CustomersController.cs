@@ -96,7 +96,7 @@ namespace TrashCollector.Controllers
         {
             try
             {
-                _context.Update(customer);
+                _context.Customers.Update(customer);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
@@ -196,7 +196,7 @@ namespace TrashCollector.Controllers
         {
             try
             {
-                _context.Update(customer);
+                _context.Customers.Update(customer);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
