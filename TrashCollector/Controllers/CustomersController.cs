@@ -167,9 +167,16 @@ namespace TrashCollector.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SetPickupDay(Customer customer)
         {
-            //Customers.PickupDayChoice  set value instead of using .update 
-            return View();
-
+            try
+            {
+                _context.Customers.Update(customer);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception e)
+            {
+                return View();
+            }
         }
 
         // GET: CustomersController/TemporaryStartOrStopService/5

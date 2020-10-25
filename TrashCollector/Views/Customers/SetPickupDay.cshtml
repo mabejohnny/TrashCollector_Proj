@@ -7,16 +7,32 @@
 
 <h1>Customer Portal</h1>
 
-<h4>When would you like us to pick-up?</h4>
+<h4>Please change your pick-up date below:</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="SetPickupDay">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="FirstName" />
+            <input type="hidden" asp-for="LastName" />
+            <input type="hidden" asp-for="StreetAddress" />
+            <input type="hidden" asp-for="City" />
+            <input type="hidden" asp-for="State" />
+            <input type="hidden" asp-for="ZipCode" />
+            <input type="hidden" asp-for="SuspendPickupStart" />
+            <input type="hidden" asp-for="SuspendPickupEnd" />
+            <input type="hidden" asp-for="OneTimePickup" />
+            <input type="hidden" asp-for="Balance" />
+            <input type="hidden" asp-for="PickedUp" />
+            <input type="hidden" asp-for="IdentityUserId" />
+
             <div class="form-group">
                 <label asp-for="PickupDayChoice" class="control-label"></label>
                 <input asp-for="PickupDayChoice" class="form-control" />
                 <span asp-validation-for="PickupDayChoice" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
